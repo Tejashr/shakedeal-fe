@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function AssignTask() {
   const [task, setTask] = useState("");
+  //initializing the teams
   const [team, setTeam] = useState([
     {
       name: "Team 1",
@@ -44,17 +45,26 @@ function AssignTask() {
   const [assignedTasks, setassignedTasks] = useState([]);
 
   const assignTask = () => {
+    //checking enterd task is empty if empty break the code and return
     if (task === "") {
       alert("Please enter a task");
       return;
     }
+    // currentTeam is an index of selected team by dropdown
     const cteam = team[currentTeam];
+
+    //sorting accornding to priority
     const sortedMembers = [...cteam.members].sort(
       (a, b) => b.priority - a.priority
     );
+
     const currentMember = sortedMembers[cteam.memberIndex];
     const atask = `${task} is assigned to ${currentMember.name}`;
+
+    //putting the current task and name in  assigned tasks list
     setassignedTasks([...assignedTasks, atask]);
+
+    //changing the member index in circular pattern accronding to round robin manner
     cteam.memberIndex = (cteam.memberIndex + 1) % cteam.members.length;
     setTask("");
   };
